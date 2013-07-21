@@ -47,6 +47,7 @@ public class VideoEntry {
 		this.id = id;
 	}
 	
+	
 	public static class Builder {
 		private VideoEntry entry;
 		

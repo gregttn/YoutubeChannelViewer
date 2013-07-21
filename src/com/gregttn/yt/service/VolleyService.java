@@ -16,4 +16,8 @@ public class VolleyService {
 	public <T> void addRequest(Request<T> request) {
 		requestQueue.add(request);
 	}
+
+	public RequestQueue getRequestQueue() {
+		return requestQueue;
+	}
 }

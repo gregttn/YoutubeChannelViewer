@@ -13,6 +13,7 @@ import com.gregttn.yt.json.JsonRequest;
 import com.gregttn.yt.model.ChannelData;
 import com.gregttn.yt.service.VolleyService;
 import com.gregttn.yt.service.YoutubeService;
+import com.gregttn.yt.utils.ImageCacheHelper;
 
 public class MainActivity extends Activity implements Listener<ChannelData>, ErrorListener {
 	private static final String CHANNEL_NAME = "RayWilliamJohnson";
@@ -32,9 +33,16 @@ public class MainActivity extends Activity implements Listener<ChannelData>, Err
 		volleyService  = new VolleyService(this);
 		ytService = new YoutubeService();
 		
+		initImageCache();
+		
 		channelVideosList = (ListView) findViewById(R.id.channelVideos);
 
 		dispatchChannelRequest();
+	}
+	
+	private void initImageCache() {
+		ImageCacheHelper cacheHelper = ImageCacheHelper.getInstance();
+		cacheHelper.init(this, volleyService.getRequestQueue());
 	}
 	
 	private void dispatchChannelRequest() {

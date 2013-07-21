@@ -7,6 +7,8 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.gregttn.yt.model.ChannelData;
 import com.gregttn.yt.model.VideoEntry;
 import com.gregttn.yt.service.VolleyService;
+import com.gregttn.yt.service.YoutubeService;
+import com.gregttn.yt.utils.ImageCacheHelper;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 
 public class YoutubeVideosAdapter extends ArrayAdapter<ChannelData>{
 	private List<VideoEntry> videos;
+	private YoutubeService ytService = new YoutubeService();
 	
 	public YoutubeVideosAdapter(Context context, ChannelData data) {
 		super(context, R.layout.video_entry);
@@ -33,13 +36,17 @@ public class YoutubeVideosAdapter extends ArrayAdapter<ChannelData>{
 			
 			viewHolder = new ViewHolder();
 			viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+			viewHolder.coverImage = (NetworkImageView) convertView.findViewById(R.id.coverImage);
+			
+			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		
 		
-		if(videos.size() > position) { 
+		if(videos.size() > position && videos.get(position) != null) { 
 			viewHolder.title.setText(videos.get(position).getTitle());
+			viewHolder.coverImage.setImageUrl("http://www.youtube.com/img/pic_youtubelogo_123x63.gif", ImageCacheHelper.getInstance().getImageLoader());
 		}		
 		
 		return convertView;
@@ -47,6 +54,7 @@ public class YoutubeVideosAdapter extends ArrayAdapter<ChannelData>{
 	
 	static class ViewHolder {
 		TextView title;
+		NetworkImageView coverImage;
 	}
 	
 	@Override
