@@ -12,5 +12,4 @@ public class ChannelData {
 	public void setVideos(List<VideoEntry> videos) {
 		this.videos = videos;
 	}
-	
 }

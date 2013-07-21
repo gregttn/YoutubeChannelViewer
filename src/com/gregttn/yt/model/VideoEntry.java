@@ -1,6 +1,11 @@
 package com.gregttn.yt.model;
 
 public class VideoEntry {
+	private static final String SEPARATOR = ":";
+	private static final String VIEWS_DISPLAY = "Views: %d";
+	private static final String LIKES_DISPLAY = "Likes: %d";
+	private static final String DISLIKES_DISPLAY = "Dislikes: %d";
+	
 	private String id;
 	private String title;
 	private long views;
@@ -47,6 +52,23 @@ public class VideoEntry {
 		this.id = id;
 	}
 	
+	public String getVideoId() {
+		String videoId = id.substring(id.lastIndexOf(SEPARATOR) + 1);
+		
+		return videoId;
+	}
+	
+	public String getViewsForDisplay() {
+		return String.format(VIEWS_DISPLAY, views);
+	}
+	
+	public String getLikesForDisplay() {
+		return String.format(LIKES_DISPLAY, likes);
+	}
+	
+	public String getDislikesForDisplay() {
+		return String.format(DISLIKES_DISPLAY, dislikes);
+	}
 	
 	public static class Builder {
 		private VideoEntry entry;

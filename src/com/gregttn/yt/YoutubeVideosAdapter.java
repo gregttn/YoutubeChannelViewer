@@ -2,20 +2,18 @@ package com.gregttn.yt;
 
 import java.util.List;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.gregttn.yt.model.ChannelData;
-import com.gregttn.yt.model.VideoEntry;
-import com.gregttn.yt.service.VolleyService;
-import com.gregttn.yt.service.YoutubeService;
-import com.gregttn.yt.utils.ImageCacheHelper;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.android.volley.toolbox.NetworkImageView;
+import com.gregttn.yt.model.ChannelData;
+import com.gregttn.yt.model.VideoEntry;
+import com.gregttn.yt.service.YoutubeService;
+import com.gregttn.yt.utils.ImageCacheHelper;
 
 public class YoutubeVideosAdapter extends ArrayAdapter<ChannelData>{
 	private List<VideoEntry> videos;
@@ -36,6 +34,9 @@ public class YoutubeVideosAdapter extends ArrayAdapter<ChannelData>{
 			
 			viewHolder = new ViewHolder();
 			viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+			viewHolder.views = (TextView) convertView.findViewById(R.id.views);
+			viewHolder.likes = (TextView) convertView.findViewById(R.id.likes);
+			viewHolder.dislikes = (TextView) convertView.findViewById(R.id.dislikes);
 			viewHolder.coverImage = (NetworkImageView) convertView.findViewById(R.id.coverImage);
 			
 			convertView.setTag(viewHolder);
@@ -44,9 +45,15 @@ public class YoutubeVideosAdapter extends ArrayAdapter<ChannelData>{
 		}
 		
 		
-		if(videos.size() > position && videos.get(position) != null) { 
-			viewHolder.title.setText(videos.get(position).getTitle());
-			viewHolder.coverImage.setImageUrl("http://www.youtube.com/img/pic_youtubelogo_123x63.gif", ImageCacheHelper.getInstance().getImageLoader());
+		if(videos.size() > position) { 
+			VideoEntry videoEntry = videos.get(position);
+			String thumbnailUrl = ytService.getThumbnailUrl(videoEntry.getVideoId());
+			
+			viewHolder.title.setText(videoEntry.getTitle());
+			viewHolder.views.setText(videoEntry.getViewsForDisplay());
+			viewHolder.likes.setText(videoEntry.getLikesForDisplay());
+			viewHolder.dislikes.setText(videoEntry.getDislikesForDisplay());
+			viewHolder.coverImage.setImageUrl(thumbnailUrl, ImageCacheHelper.getInstance().getImageLoader());
 		}		
 		
 		return convertView;
@@ -54,6 +61,9 @@ public class YoutubeVideosAdapter extends ArrayAdapter<ChannelData>{
 	
 	static class ViewHolder {
 		TextView title;
+		TextView views;
+		TextView likes;
+		TextView dislikes;
 		NetworkImageView coverImage;
 	}
 	

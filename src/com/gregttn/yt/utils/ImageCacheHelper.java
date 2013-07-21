@@ -12,8 +12,7 @@ public class ImageCacheHelper {
 		private final static ImageCacheHelper INSTANCE = new ImageCacheHelper();
 	}
 	
-	private ImageCacheHelper() {
-	}
+	private ImageCacheHelper() {}
 	
 	public static ImageCacheHelper getInstance() {
 		return Holder.INSTANCE;

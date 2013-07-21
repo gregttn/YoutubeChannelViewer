@@ -32,11 +32,9 @@ public class MainActivity extends Activity implements Listener<ChannelData>, Err
 		
 		volleyService  = new VolleyService(this);
 		ytService = new YoutubeService();
+		channelVideosList = (ListView) findViewById(R.id.channelVideos);
 		
 		initImageCache();
-		
-		channelVideosList = (ListView) findViewById(R.id.channelVideos);
-
 		dispatchChannelRequest();
 	}
 	
