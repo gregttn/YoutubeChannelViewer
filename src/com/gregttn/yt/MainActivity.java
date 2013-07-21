@@ -15,19 +15,22 @@ import com.gregttn.yt.service.VolleyService;
 import com.gregttn.yt.service.YoutubeService;
 
 public class MainActivity extends Activity implements Listener<ChannelData>, ErrorListener {
-	private static final String CHANNEL_NAME = "djfazii";
-	private static final int MAX_VIDEOS = 2;
+	private static final String CHANNEL_NAME = "RayWilliamJohnson";
+	private static final int MAX_VIDEOS = 20;
 	private static final String TAG = "MainActivity";
 	
 	private ListView channelVideosList;
 
-	private YoutubeService ytService = new YoutubeService();
-	private VolleyService volleyService = new VolleyService(this);
+	private YoutubeService ytService;
+	private VolleyService volleyService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		volleyService  = new VolleyService(this);
+		ytService = new YoutubeService();
 		
 		channelVideosList = (ListView) findViewById(R.id.channelVideos);
 
@@ -54,6 +57,12 @@ public class MainActivity extends Activity implements Listener<ChannelData>, Err
 
 	@Override
 	public void onResponse(ChannelData channelData) {
-		
+		if(channelData != null) {
+			YoutubeVideosAdapter adapter = new YoutubeVideosAdapter(this, channelData);
+			channelVideosList.setAdapter(adapter);
+			adapter.notifyDataSetChanged();
+
+			Log.i(TAG, "Updated channel data");
+		}
 	}
 }
